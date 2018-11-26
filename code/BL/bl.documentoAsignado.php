@@ -15,7 +15,12 @@
 		//code
             $_action    = isset($_POST['action'])?sprintf("%s",$_POST['action']):"";
             $_iusuario  = isset($_SESSION['idUsuario'])?intval($_SESSION['idUsuario']):0;
-            if ($_action=="cerrarDocumento")
+            if ($_action=="cargarTipo")
+            {
+                $_idUsuario = isset($_SESSION['idUsuario'])?intval($_SESSION['idUsuario']):intval($_POST['idU']);
+                echo $objClase->fcCargarTipo($_idUsuario , 0 , 0);
+            }
+            elseif ($_action=="cerrarDocumento")
             {   $_idDOcumentoAsignado = $_SESSION['ORDEN']['IDOCUMENTO'];
                 $objClase->fcDocumentoAsignado(2, 0, 0, $_iusuario, $_iusuario, "", "", $_idDOcumentoAsignado);
                 echo "ok";
@@ -63,11 +68,12 @@
         elseif ($_GET)
         {
             $action = sprintf("%s",$_GET['action']);
-            $objClase	= new ClsDocumentoAsignado();    	
+            $objClase	= new ClsDocumentoAsignado(); 
             if($action=="cargarLista")
             {
                 $_idUsuario = isset($_SESSION['idUsuario'])?intval($_SESSION['idUsuario']):0;
-                $resultado = $objClase->fcListarDocumentoAsignado($_idUsuario, 0 , 1, 0 , 100);
+                $_tipo      = isset($_SESSION['tipo'])?intval($_SESSION['tipo']):0;
+                $resultado = $objClase->fcListarDocumentoAsignado($_idUsuario, 0 , 1, 0 , 100 , 0 , "" , $_tipo );
                 $objClase  = null;
                 echo json_encode($resultado);
             }
