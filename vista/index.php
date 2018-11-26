@@ -28,13 +28,26 @@
 
         <div id="page-wrapper" class="capa" >            
             <div class="row">
-                <div class="col-lg-12" id="capa">
+                <div class="col-lg-12">
                     <form class="form-horizontal" role="form" id="frmDocumento" name="frmDocumento" action="principal.php" method="post">
-                      <div class="form-group">
+                     <div class="form-group">
+                        <label for="txtDato00" class="col-lg-2 control-label">
+                            Tipo Documento Asignado:</label>
+                        <div class="col-lg-10" id="sCapaSelect">
+                            
+                            <select class="form-control" id="tDocumentoAsignado" name="tDocumentoAsignado" style="width:80%" required title="Seleccione">
+                            </select>
+                            <div align="justify">
+                                <span class="resumen">Seleccione el tipo de documento.</span>
+                            </div>
+                               
+                        </div>
+                      </div> 
+                     <div class="form-group"  id="capa">
                         <label for="txtDato01" class="col-lg-2 control-label">
                             <input type="hidden"  id="nselectpadre" name="nselectpadre" value="0"/>
                                    
-                            Referencia Asignada:</label>
+                            Documento Asignado:</label>
                         <div class="col-lg-10" id="sCapaSelect">
                             
                             <select class="form-control" id="sDocumentoAsignado" name="sDocumentoAsignado" style="width:80%" required title="Seleccione">
@@ -68,14 +81,23 @@
 
     <script type="text/javascript">
         $(function(){
-            fcDocumentoAsignado(-1);
+            fcCargarTD();
+            
         });
         
+        function fcCargarTD()
+        {   var _idUsuario = "<?php echo $_SESSION['idUsuario'] ?>";
+            $.post('../code/BL/bl.documentoAsignado.php',{idU : _idUsuario, action : "cargarTipo"},function(data)
+            {
+                $("#tDocumentoAsignado").html(data);
+                fcDocumentoAsignado(-1);
+            });
+        }
         function fcDocumentoAsignado(_carga)
         {
             var idUsuario = "<?php echo $_SESSION['idUsuario'] ?>";
             
-            $.getJSON('../code/BL/bl.documentoAsignado.php?action=cargarLista',{format: "json"}, function(data) {
+            $.getJSON('../code/BL/bl.documentoAsignado.php?action=cargarLista&tipo='+$("#tDocumentoAsignado").val(),{format: "json" }, function(data) {
                 var toAppend = "";
                 
                 var counter = 0;
@@ -90,7 +112,7 @@
                 }
                 else
                 {
-                    $("#capa").html("<center><h1>No tiene asignado orden/documento</h1>Comuniquese con al Administrador del sistema</center>");
+                    $("#capa").html("<center><h1>No tiene asignado documento alguno</h1>Comuniquese con al Administrador del sistema</center>");
                 }    
             });  
         }
