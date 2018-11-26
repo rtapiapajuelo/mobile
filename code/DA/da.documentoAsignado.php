@@ -141,6 +141,58 @@ class ClsDocumentoAsignado
         $this->_total = $_count;
         return $_data;
     }
+    
+    /**
+     * Tipo de respuesta por id de tipo o cuenta de usuario
+     * @param type $_usuario
+     * @param type $_tipo
+     * @param type $_tipoRpta 0=html opciones 1=array de datos
+     */
+    function fcCargarTipo($_usuario , $_tipo=0 , $_tipoRpta =0)
+    {
+        $_data      = array();
+        $_html      = "";
+        $_count     = 0;
+        $_fila      = null;
+        $sqlProc    = sprintf("CALL sp_mov_listarTipoDoc(%d,%d)", $_usuario , $_tipo);
+        
+        if ($this->_objBD->fcEjecutarSP2($sqlProc, $this->_cn))
+        {
+            do{
+                if ($result = $this->_cn->store_result()) {
+                    while ($_fila = $this->_objBD->fcExtraeFilaAsociada($result)) {
+                        if ($_tipoRpta==1)
+                        {
+                            $_data[$_count] = $_fila;
+                        }
+                        else
+                        {
+                            $_html = $_html."<option value='".$_fila['codigo']."'>".$_fila['nombre']."</option>";
+                        }
+                        $_count++;
+                    }
+                    //$result->free();
+                    $result->close();
+                }                
+            } 
+            while ($this->_cn->more_results() && $this->_cn->next_result());
+        }
+        else 
+        {
+            printf("First Error: %s", $this->_cn->error);
+        }
+        $this->_total = $_count;
+        if ($_tipoRpta==1)
+        {
+            return $_data;
+        }
+        else
+        {
+            return $_html;
+        }
+        
+    }
+    
     /**
      * Listar documentos asignados
      * @param type $_key1
@@ -148,14 +200,14 @@ class ClsDocumentoAsignado
      * @param type $_estado
      * @return type
      */
-    function fcListarDocumentoAsignado($_key1, $_key2, $_estado=1,  $_inicio = 0, $_fin =10, $_ncolumna = 0 , $_ndocumento="")
+    function fcListarDocumentoAsignado($_key1, $_key2, $_estado=1,  $_inicio = 0, $_fin =10, $_ncolumna = 0 , $_ndocumento="", $_tipodoc=0)
     {
     
 
         $_data      = array();
         $_count     = 0;
         $_fila      = null;
-        $sqlProc    = sprintf("CALL sp_mov_listarDocumentosAsignado(%d,%d,%d,%d,%d,%d,'%s')", $_key1, $_key2, $_estado, $_inicio , $_fin, $_ncolumna , $_ndocumento);
+        $sqlProc    = sprintf("CALL sp_mov_listarDocumentosAsignado(%d,%d,%d,%d,%d,%d,'%s',%d)", $_key1, $_key2, $_estado, $_inicio , $_fin, $_ncolumna , $_ndocumento, $_tipodoc);
         
         if ($this->_objBD->fcEjecutarSP2($sqlProc, $this->_cn))
         {
