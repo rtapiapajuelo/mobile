@@ -222,7 +222,7 @@
                         toAppend += '<input type="number" pattern="[0-9]+([\.|,][0-9]+)?" step="0.01" title=\"' + data[i].mov_vch_texto_validacion + '\" class="form-control" placeholder=\"' + data[i].mov_vch_texto_ayuda + '\" name=\"' + data[i].mov_vch_nombre_control + '\" id=\"' + data[i].mov_vch_nombre_control + '\" required  />';
                     }
                     else if (data[i].mov_vch_tipo_control=="A"){
-                        toAppend += '<input type="file" title=\"' + data[i].mov_vch_texto_validacion + '\" class="form-control" placeholder=\"' + data[i].mov_vch_texto_ayuda + '\" name=\"' + data[i].mov_vch_nombre_control + '\" id=\"' + data[i].mov_vch_nombre_control + '\" required  />';
+                        toAppend += '<input type="file" title=\"' + data[i].mov_vch_texto_validacion + '\" class="form-control-file"  name=\"' + data[i].mov_vch_nombre_control + '\" id=\"' + data[i].mov_vch_nombre_control + '\" required  />';
                     }
                     else if (data[i].mov_vch_tipo_control=="L"){
                         toAppend += '<select title=\"' + data[i].mov_vch_texto_validacion + '\" class="form-control" placeholder=\"' + data[i].mov_vch_texto_ayuda + '\" name=\"' + data[i].mov_vch_nombre_control + '\" id=\"' + data[i].mov_vch_nombre_control + '\" required  >'+data[i].html+
