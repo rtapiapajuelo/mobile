@@ -158,7 +158,7 @@
             var _tipo           = <?php echo '"'.$tipo.'"'; ?>;
 
             $.getJSON('../code/BL/bl.controlDato.php?action=cargarLista&idDatoOpcion=' + _idDatoOpcion,{format: "json"}, function(datos) {
-                toAppend += '<form role="form" id="frmProceso" name="frmProceso">';
+                toAppend += '<form role="form" id="frmProceso" name="frmProceso" enctype="multipart/form-data">';
                 toAppend += '<input type="hidden" name="action" id="action" value="procesar">';
                 toAppend += '<input type="hidden" name="idDocumentoSeleccionado" id="idDocumentoSeleccionado" value=\"' + _idDocumentoSeleccionado + '\">';
                 toAppend += '<input type="hidden" name="idDatoOpcion" id="idDatoOpcion" value=\"' + _idDatoOpcion + '\">';
@@ -220,6 +220,9 @@
                         toAppend += '<input type="number" pattern="\d*" min="0" step="1" title=\"' + data[i].mov_vch_texto_validacion + '\" class="form-control" placeholder=\"' + data[i].mov_vch_texto_ayuda + '\" name=\"' + data[i].mov_vch_nombre_control + '\" id=\"' + data[i].mov_vch_nombre_control + '\" required  />';
                     }else if (data[i].mov_vch_tipo_control=="D"){
                         toAppend += '<input type="number" pattern="[0-9]+([\.|,][0-9]+)?" step="0.01" title=\"' + data[i].mov_vch_texto_validacion + '\" class="form-control" placeholder=\"' + data[i].mov_vch_texto_ayuda + '\" name=\"' + data[i].mov_vch_nombre_control + '\" id=\"' + data[i].mov_vch_nombre_control + '\" required  />';
+                    }
+                    else if (data[i].mov_vch_tipo_control=="A"){
+                        toAppend += '<input type="file" title=\"' + data[i].mov_vch_texto_validacion + '\" class="form-control" placeholder=\"' + data[i].mov_vch_texto_ayuda + '\" name=\"' + data[i].mov_vch_nombre_control + '\" id=\"' + data[i].mov_vch_nombre_control + '\" required  />';
                     }
                     else if (data[i].mov_vch_tipo_control=="L"){
                         toAppend += '<select title=\"' + data[i].mov_vch_texto_validacion + '\" class="form-control" placeholder=\"' + data[i].mov_vch_texto_ayuda + '\" name=\"' + data[i].mov_vch_nombre_control + '\" id=\"' + data[i].mov_vch_nombre_control + '\" required  >'+data[i].html+
