@@ -74,6 +74,18 @@
         {
             $("#frmProceso").submit(function(){
                 event.preventDefault();
+                //e.preventDefault();
+                var formData = new FormData(this);
+                $.post($(this).attr("action"), formData, function(data) {
+                    if(data=="resultadoOK") {
+                            //alert("Proceso OK");
+                            var url = "index.php"; 
+                            $(location).attr('href',url);
+                        }else{
+                            alert("Proceso KO");
+                        }
+                });
+                /*
                 var formulario = $("#frmProceso").serializeArray();
                 $.ajax({
                     type: "POST",
@@ -95,7 +107,7 @@
                             alert("Proceso KO");
                         }
                     },
-                });
+                });*/
             });            
         }
 
