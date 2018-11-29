@@ -107,19 +107,23 @@
                                     data: formData,
                                     error   : function (xhr, ajaxOptions, thrownError){
                                         dialogo.modal('hide');
-                                        alert(xhr.status);
-                                        alert(thrownError);
-                                        console.log(xhr);
-                                        console.log("Detalle: " + ajaxOptions + "\nError:" + thrownError);
+                                        bootbox.alert("Error en el procesamiento de datos, comuniquese con el Administrador del Sistema");
+                                        //alert(xhr.status);
+                                        //alert(thrownError);
+                                        //console.log(xhr);
+                                        //console.log("Detalle: " + ajaxOptions + "\nError:" + thrownError);
                                     },
                                     success: function(data){
                                         dialogo.modal('hide');
                                         if(data=="resultadoOK") {
                                             //alert("Proceso OK");
-                                            var url = "index.php"; 
-                                            $(location).attr('href',url);
+                                            bootbox.alert("Se han enviado los datos al Sistema!", 
+                                                 function()
+                                                 {  var url = "index.php"; 
+                                                    $(location).attr('href',url); 
+                                                });
                                         }else{
-                                            alert("Proceso KO");
+                                            bootbox.alert("No se ennviaron los datos, comuniquese con el administrador del sistema!");
                                         }
                                        },
                                     });
