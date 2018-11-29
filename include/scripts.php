@@ -9,6 +9,7 @@
 <script src="<?php echo $_ruta;?>js/plugins/chosen/chosen.jquery.js"></script>
 <script src="<?php echo $_ruta;?>js/jquery.dataTables.min.js"></script>
 <script src="<?php echo $_ruta;?>js/dataTables.bootstrap.js"></script>
+<script src="<?php echo $_ruta;?>js/bootbox.min.js"></script>
 <!-- Morris Charts JavaScript -->
 <!--
 <script src="<?php echo $_ruta;?>js/plugins/morris/raphael.min.js"></script>
