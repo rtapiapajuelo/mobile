@@ -77,6 +77,7 @@
                         event.preventDefault();
                         var formData = new FormData(this);
                         var _ruta = $(this).attr("action");
+                        var dialogo ;
                         bootbox.confirm({
                             message: "Esta seguro de enviar los datos al Sistema?",
                             buttons: {
@@ -93,6 +94,10 @@
                                 if (result)
                                 {
                                     //e.preventDefault();
+                                    dialogo = bootbox.dialog({
+                                        message: '<p class="text-center">Espere...Enviando Datos</p>',
+                                        closeButton: false
+                                    });
                                     $.ajax({
                                     type: "POST",
                                     dataType: 'json',
@@ -101,12 +106,14 @@
                                     contentType: false,
                                     data: formData,
                                     error   : function (xhr, ajaxOptions, thrownError){
+                                        dialogo.modal('hide');
                                         alert(xhr.status);
                                         alert(thrownError);
                                         console.log(xhr);
                                         console.log("Detalle: " + ajaxOptions + "\nError:" + thrownError);
                                     },
                                     success: function(data){
+                                        dialogo.modal('hide');
                                         if(data=="resultadoOK") {
                                             //alert("Proceso OK");
                                             var url = "index.php"; 
