@@ -71,44 +71,74 @@
         });
 
         function enviarFormulario()
-        {
+        {           
+            //e.preventDefault();
             $("#frmProceso").submit(function(){
-                event.preventDefault();
-                //e.preventDefault();
-                var formData = new FormData(this);
-                $.post($(this).attr("action"), formData, function(data) {
-                    if(data=="resultadoOK") {
-                            //alert("Proceso OK");
-                            var url = "index.php"; 
-                            $(location).attr('href',url);
-                        }else{
-                            alert("Proceso KO");
-                        }
-                });
-                /*
-                var formulario = $("#frmProceso").serializeArray();
-                $.ajax({
-                    type: "POST",
-                    dataType: 'json',
-                    url: "../code/BL/bl.proceso.php" ,
-                    data: formulario,
-                    error   : function (xhr, ajaxOptions, thrownError){
-                        alert(xhr.status);
-                        alert(thrownError);
-                        console.log(xhr);
-                        console.log("Detalle: " + ajaxOptions + "\nError:" + thrownError);
-                    },
-                    success: function(data){
-                        if(data=="resultadoOK") {
-                            //alert("Proceso OK");
-                            var url = "index.php"; 
-                            $(location).attr('href',url);
-                        }else{
-                            alert("Proceso KO");
-                        }
-                    },
-                });*/
-            });            
+                        event.preventDefault();
+                        
+                        bootbox.confirm({
+                            message: "Esta seguro de enviar los datos al Sistema?",
+                            buttons: {
+                                confirm: {
+                                    label: ' Si ',
+                                    className: 'btn-success'
+                                },
+                                cancel: {
+                                    label: ' No ',
+                                    className: 'btn-danger'
+                                }
+                            },
+                            callback: function (result) {
+                                if (result)
+                                {
+                                    //e.preventDefault();
+                                    var formData = new FormData(this);
+                                    $.post($(this).attr("action"), formData, function(data) {
+                                        if(data=="resultadoOK") {
+                                                //alert("Proceso OK");
+                                                bootbox.alert("Se han enviado los datos al Sistema!", 
+                                                 function()
+                                                 {  var url = "index.php"; 
+                                                    $(location).attr('href',url); 
+                                                });
+                                            }
+                                            else
+                                            {
+                                                bootbox.alert("Los datos no lograron enviarse comuniquese con el administrador!");
+                                            }
+                                    });                                    
+                                }
+                            }
+                        });
+                                           
+                                               
+                        
+                        
+                        /*
+                        var formulario = $("#frmProceso").serializeArray();
+                        $.ajax({
+                            type: "POST",
+                            dataType: 'json',
+                            url: "../code/BL/bl.proceso.php" ,
+                            data: formulario,
+                            error   : function (xhr, ajaxOptions, thrownError){
+                                alert(xhr.status);
+                                alert(thrownError);
+                                console.log(xhr);
+                                console.log("Detalle: " + ajaxOptions + "\nError:" + thrownError);
+                            },
+                            success: function(data){
+                                if(data=="resultadoOK") {
+                                    //alert("Proceso OK");
+                                    var url = "index.php"; 
+                                    $(location).attr('href',url);
+                                }else{
+                                    alert("Proceso KO");
+                                }
+                               },
+                            });*/
+                        }); 
+                    
         }
 
         function isEmpty( _elemento ){
