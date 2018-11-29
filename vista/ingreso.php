@@ -75,7 +75,8 @@
             //e.preventDefault();
             $("#frmProceso").submit(function(){
                         event.preventDefault();
-                        
+                        var formData = new FormData(this);
+                        var _ruta = $(this).attr("action");
                         bootbox.confirm({
                             message: "Esta seguro de enviar los datos al Sistema?",
                             buttons: {
@@ -92,21 +93,30 @@
                                 if (result)
                                 {
                                     //e.preventDefault();
-                                    var formData = new FormData(this);
-                                    $.post($(this).attr("action"), formData, function(data) {
+                                    $.ajax({
+                                    type: "POST",
+                                    dataType: 'json',
+                                    url: "../code/BL/bl.proceso.php" ,
+                                    processData: false,
+                                    contentType: false,
+                                    data: formData,
+                                    error   : function (xhr, ajaxOptions, thrownError){
+                                        alert(xhr.status);
+                                        alert(thrownError);
+                                        console.log(xhr);
+                                        console.log("Detalle: " + ajaxOptions + "\nError:" + thrownError);
+                                    },
+                                    success: function(data){
                                         if(data=="resultadoOK") {
-                                                //alert("Proceso OK");
-                                                bootbox.alert("Se han enviado los datos al Sistema!", 
-                                                 function()
-                                                 {  var url = "index.php"; 
-                                                    $(location).attr('href',url); 
-                                                });
-                                            }
-                                            else
-                                            {
-                                                bootbox.alert("Los datos no lograron enviarse comuniquese con el administrador!");
-                                            }
-                                    });                                    
+                                            //alert("Proceso OK");
+                                            var url = "index.php"; 
+                                            $(location).attr('href',url);
+                                        }else{
+                                            alert("Proceso KO");
+                                        }
+                                       },
+                                    });
+                                    alert(result);                                   
                                 }
                             }
                         });
