@@ -70,6 +70,38 @@ class ClsDocumentoAsignado
     }
     
     /**
+     * Metodo que permite ver el detalle de una opcion
+     * @param type $_idOpcion
+     */
+    function fcDetalleOpcion($_idOpcion )
+    {
+        $_data      = array();
+        $_count     = 0;
+        $_fila      = null;
+        $sqlProc    = sprintf("CALL sp_mov_verdetralle(%d)", $_idOpcion );
+        
+        if ($this->_objBD->fcEjecutarSP2($sqlProc, $this->_cn))
+        {
+            do{
+                if ($result = $this->_cn->store_result()) {
+                    while ($_fila = $this->_objBD->fcExtraeFilaAsociada($result)) {
+                        $_data[$_count] = $_fila;
+                        $_count++;
+                    }
+                    //$result->free();
+                    $result->close();
+                }                
+            } 
+            while ($this->_cn->more_results() && $this->_cn->next_result());
+        }
+        else 
+        {
+            printf("First Error: %s", $this->_cn->error);
+        }
+        $this->_total = $_count;
+        return $_data;
+    }
+    /**
      * Metodo que permite listar las opciones de la aplicacion
      * @param type $_nombre
      * @param type $_codigo
@@ -105,6 +137,34 @@ class ClsDocumentoAsignado
         $this->_total = $_count;
         return $_data;
     }
+    
+    function fcVerResumen($_idDocumento , $_idUsuario)
+    {
+        $_data      = array();
+        $_count     = 0;
+        $_fila      = null;
+        $sqlProc    = sprintf("CALL sp_mov_resumen(%d,%d)",  $_idUsuario , $_idDocumento );
+        if ($this->_objBD->fcEjecutarSP2($sqlProc, $this->_cn))
+        {
+            do{
+                if ($result = $this->_cn->store_result()) {
+                    while ($_fila = $this->_objBD->fcExtraeFilaAsociada($result)) {
+                        $_data[$_count] = $_fila;
+                        $_count++;
+                    }
+                    $result->close();
+                }                
+            } 
+            while ($this->_cn->more_results() && $this->_cn->next_result());
+        }
+        else 
+        {
+            printf("First Error: %s", $this->_cn->error);
+        }
+        $this->_total = $_count;
+        return $_data;
+    }
+         
     
     /**
      * Metodo para consultar los tipos de documentos
