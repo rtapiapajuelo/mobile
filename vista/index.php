@@ -50,8 +50,10 @@
                             Documento Asignado:</label>
                         <div class="col-lg-10" id="sCapaSelect">
                             
-                            <select class="form-control" id="sDocumentoAsignado" name="sDocumentoAsignado" style="width:80%" required title="Seleccione">
+                            <select class="form-control" id="sDocumentoAsignado" name="sDocumentoAsignado" 
+                                           style="width:80%" required title="Seleccione" onchange="javascript:verDetalle()">
                             </select>
+                            <div align="justify" id="capaResumen"></div>
                             <div align="justify">
                                 <span class="resumen">Seleccione la Orden, requerimiento o el Documento que tiene asignado dentro de la lista desplegable; 
                                 luego registre los datos que se les solicite de acuerdo a las opciones mostradas.</span>
@@ -93,6 +95,16 @@
                 fcDocumentoAsignado(-1);
             });
         }
+        
+        function verDetalle()
+        {
+            $.post("../code/BL/bl.documentoAsignado.php",{action:'verDetalle', iDoc : $("sDocumentoAsignado").val()},
+            function(data)
+            {
+                $("#capaResumen").html(data);
+            });
+        }
+        
         function fcDocumentoAsignado(_carga)
         {
             var idUsuario = "<?php echo $_SESSION['idUsuario'] ?>";
