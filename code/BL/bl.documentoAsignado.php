@@ -15,7 +15,14 @@
 		//code
             $_action    = isset($_POST['action'])?sprintf("%s",$_POST['action']):"";
             $_iusuario  = isset($_SESSION['idUsuario'])?intval($_SESSION['idUsuario']):0;
-            if ($_action=="cargarTipo")
+            if ($_action=="verDetalle")
+            {   $_idUsuario = isset($_SESSION['idUsuario'])?intval($_SESSION['idUsuario']):intval($_POST['idU']);
+                $_idDOcumentoAsignado = isset($_POST['iDoc'])?intval($_POST['iDoc']):0;
+                $_datos=$objClase->fcVerResumen($_idDOcumentoAsignado , $_idUsuario);
+                echo $_datos[0]['resumen']; 
+                
+            }
+            elseif ($_action=="cargarTipo")
             {
                 $_idUsuario = isset($_SESSION['idUsuario'])?intval($_SESSION['idUsuario']):intval($_POST['idU']);
                 echo $objClase->fcCargarTipo($_idUsuario , 0 , 0);
@@ -193,7 +200,7 @@
                     }
                     if ($resultado[0]['mov_int_iddocumento']==1)
                     {
-                        $_SESSION['ORDEN']['DOCUMENTO']   = $_serieDoc."/".$resultado[0]['mov_vch_numero'];
+                        $_SESSION['ORDEN']['DOCUMENTO']   = $_serieDoc."-".$resultado[0]['mov_vch_numero'];
                     }
                     else
                     {
